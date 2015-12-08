@@ -233,10 +233,22 @@ describe('WebDriverIO', function() {
         .then(() => wd.click('Login'))
         .then(() => assert.equal(formContents('LoginForm')['username'], 'davert'))
         .then(() => assert.equal(formContents('LoginForm')['password'], '123456'));                          
-    });
+    });    
     
+    it('should fill textarea by css', () => {
+      return wd.amOnPage('/form/textarea')
+        .then(() => wd.fillField('textarea', 'Nothing special'))
+        .then(() => wd.click('Submit'))
+        .then(() => assert.equal(formContents('description'), 'Nothing special'));                        
+    });
+
+    it('should fill textarea by label', () => {
+      return wd.amOnPage('/form/textarea')
+        .then(() => wd.fillField('Description', 'Nothing special'))
+        .then(() => wd.click('Submit'))
+        .then(() => assert.equal(formContents('description'), 'Nothing special'));                        
+    });    
   });
-  
   
   
 });

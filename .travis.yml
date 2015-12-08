@@ -3,18 +3,12 @@ node_js:
   - '4.2'
   - '5.1'
 
-addons:
-  apt:
-    sources:
-    - "ondrej/php5-5.6"
-    packages:
-    - php5-cli
-
 before_install:
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
   
 before_script:
+  - phpenv global 5.6
   - php -v
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
