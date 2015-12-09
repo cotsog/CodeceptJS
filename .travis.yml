@@ -7,6 +7,8 @@ addons:
   apt:
     packages:
     - php5-cli
+    - libmcrypt-dev
+    - libreadline-dev
 
 before_install:
   # installing latest PHP with PHPBrew
