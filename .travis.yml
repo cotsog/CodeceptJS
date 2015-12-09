@@ -3,12 +3,25 @@ node_js:
   - '4.2'
   - '5.1'
 
+addons:
+  apt:
+    packages:
+    - php5-cli
+
 before_install:
+  # installing latest PHP with PHPBrew
+  - curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
+  - chmod +x phpbrew
+  - sudo mv phpbrew /usr/bin/phpbrew
+  - phpbrew init
+  - phpbrew known --update
+  - phpbrew update
+  - phpbrew install 7.0 +default  
+  # installing Selenium
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
   
 before_script:
-  - phpenv global 5.6
   - php -v
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start

@@ -96,6 +96,12 @@ describe('WebDriverIO', function() {
         .then(() => wd.see('valuable', '//body/p'))
         .then(() => wd.dontSee('valuable', 'h1'));
     });
+    
+    it('should verify non-latin chars', () => {
+      return wd.amOnPage('/info')
+        .then(() => wd.see('на'))
+        .then(() => wd.see('Текст', 'p'));      
+    });
   });
   
   describe('#click', () => {
@@ -248,6 +254,13 @@ describe('WebDriverIO', function() {
         .then(() => wd.click('Submit'))
         .then(() => assert.equal(formContents('description'), 'Nothing special'));                        
     });    
+  });
+  
+  describe('check fields: #seeInField, #seeCheckboxIsChecked', () => {
+    it('should check for empty field', () => {
+      return wd.amOnPage('/form/empty')
+        .then(() => wd.seeInField('#empty_input', ''));
+    });
   });
   
   
