@@ -293,9 +293,48 @@ describe('WebDriverIO', function() {
         .then(() => wd.dontSeeInField('checkbox[]', 'not seen three'))
         .then(() => wd.seeInField('checkbox[]', 'see test three'));      
     });    
+    
+    it('should check values with boolean', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.seeInField('checkbox1', true))
+        .then(() => wd.dontSeeInField('checkbox1', false))
+        .then(() => wd.seeInField('checkbox2', false))
+        .then(() => wd.dontSeeInField('checkbox2', true))
+        .then(() => wd.seeInField('radio2', true))
+        .then(() => wd.dontSeeInField('radio2', false))
+        .then(() => wd.seeInField('radio3', false))
+        .then(() => wd.dontSeeInField('radio3', true));     
+    });
+    
+    it('should check values in radio', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.seeInField('radio1', 'see test one'))
+        .then(() => wd.dontSeeInField('radio1', 'not seen one'))
+        .then(() => wd.dontSeeInField('radio1', 'not seen two'))
+        .then(() => wd.dontSeeInField('radio1', 'not seen three'));      
+    });
+    
+    it('should check values in select', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.seeInField('select1', 'see test one'))
+        .then(() => wd.dontSeeInField('select1', 'not seen one'))
+        .then(() => wd.dontSeeInField('select1', 'not seen two'))
+        .then(() => wd.dontSeeInField('select1', 'not seen three'));      
+    });
+    
+    it('should check for empty select field', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.seeInField('select3', ''));
+    });
+    
+    it('should check for select multiple field', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.dontSeeInField('select2', 'not seen one'))
+        .then(() => wd.seeInField('select2', 'see test one'))
+        .then(() => wd.dontSeeInField('select2', 'not seen two'))
+        .then(() => wd.seeInField('select2', 'see test two'))
+        .then(() => wd.dontSeeInField('select2', 'not seen three'))
+        .then(() => wd.seeInField('select2', 'see test three'));      
+    });
   });
-  
-  
-  
-  
 });
