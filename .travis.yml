@@ -16,20 +16,16 @@ before_install:
   # installing latest PHP with PHPBrew
   - curl -L -O https://github.com/phpbrew/phpbrew/raw/master/phpbrew
   - chmod +x phpbrew
-  - phpbrew init
-  - phpbrew known --update
-  - phpbrew update
-  - phpbrew install 7.0 +default  
+  - ./phpbrew init
+  - ./phpbrew install 7.0.0 +default  
   # installing Selenium
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
   
 before_script:
-  - phpbrew use 7.0
-  - php -v
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - "selenium-standalone start >/dev/null 2>&1 &"
-  - "php -S -t test/data/app 127.0.0.1:8000 &"
+  - "~/.phpbrew/php/7.0.0/bin/php -S -t test/data/app 127.0.0.1:8000 &"
 
 script: gulp test
