@@ -17,7 +17,7 @@ before_install:
   - git clone git://github.com/php-build/php-build.git
   - cd php-build
   - PREFIX=$HOME ./install.sh 
-  - ~/bin/php-build -i development 5.5.9 ~/.php
+  - ~/bin/php-build 5.5.9 ~/.php
   # installing Selenium
   - npm install selenium-standalone@latest -g
   - selenium-standalone install
