@@ -11,6 +11,7 @@ addons:
     - php5-cli
     - libmcrypt-dev
     - libreadline-dev
+    - libtidy
 
 before_install:
   # installing latest PHP with PHPBrew
