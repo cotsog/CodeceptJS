@@ -100,8 +100,9 @@ describe('WebDriverIO', function() {
     it('should verify non-latin chars', () => {
       return wd.amOnPage('/info')
         .then(() => wd.see('на'))
+        .then(() => wd.see("Don't do that at home!",'h3'))
         .then(() => wd.see('Текст', 'p'));      
-    });
+    });        
   });
   
   describe('#click', () => {
@@ -119,7 +120,7 @@ describe('WebDriverIO', function() {
     
     it('should click by xpath', () => {
       return wd.amOnPage('/')
-        .then(() => wd.click('//a[@id=link]'))
+        .then(() => wd.click('//a[@id="link"]'))
         .then(() => wd.seeInCurrentUrl('/info'));
     });
     
@@ -256,12 +257,45 @@ describe('WebDriverIO', function() {
     });    
   });
   
-  describe('check fields: #seeInField, #seeCheckboxIsChecked', () => {
+  describe('check fields: #seeInField, #seeCheckboxIsChecked, ...', () => {
     it('should check for empty field', () => {
       return wd.amOnPage('/form/empty')
         .then(() => wd.seeInField('#empty_input', ''));
     });
+
+    it('should check for empty textarea', () => {
+      return wd.amOnPage('/form/empty')
+        .then(() => wd.seeInField('#empty_textarea', ''));
+    });
+
+    it('should check field equals', () => {
+      return wd.amOnPage('/form/field')
+        .then(() => wd.seeInField('Name', 'OLD_VALUE'))
+        .then(() => wd.seeInField('name', 'OLD_VALUE'))
+        .then(() => wd.seeInField('//input[@id="name"]', 'OLD_VALUE'))
+        .then(() => wd.dontSeeInField('//input[@id="name"]', 'VALUE'));
+    });
+    
+    it('should check textarea equals', () => {
+      return wd.amOnPage('/form/textarea')
+      .then(() => wd.seeInField('Description', 'sunrise'))
+        .then(() => wd.seeInField('textarea', 'sunrise'))
+        .then(() => wd.seeInField('//textarea[@id="description"]', 'sunrise'))
+        .then(() => wd.dontSeeInField('//textarea[@id="description"]', 'sunset'));
+    });
+    
+    it('should check values in checkboxes', () => {
+      return wd.amOnPage('/form/field_values')
+        .then(() => wd.dontSeeInField('checkbox[]', 'not seen one'))
+        .then(() => wd.seeInField('checkbox[]', 'see test one'))
+        .then(() => wd.dontSeeInField('checkbox[]', 'not seen two'))
+        .then(() => wd.seeInField('checkbox[]', 'see test two'))
+        .then(() => wd.dontSeeInField('checkbox[]', 'not seen three'))
+        .then(() => wd.seeInField('checkbox[]', 'see test three'));      
+    });    
   });
+  
+  
   
   
 });
