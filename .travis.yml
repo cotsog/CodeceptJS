@@ -9,6 +9,7 @@ addons:
   apt:
     packages:
     - php5-cli
+    - libmcrypt
     - libmcrypt-dev
     - libreadline-dev
     - libtidy
