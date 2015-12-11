@@ -22,6 +22,7 @@ describe('WebDriverIO', function() {
   this.timeout(10000);
   
   before(() => {
+    global.codecept_dir = path.join(__dirname, '../../data');
     try {      
       fs.unlinkSync(dataFile);
     } catch (err) {}
@@ -103,6 +104,16 @@ describe('WebDriverIO', function() {
         .then(() => wd.see("Don't do that at home!",'h3'))
         .then(() => wd.see('Текст', 'p'));      
     });        
+  });
+  
+  describe('see element : #seeElement, #dontSeeElement', () => {
+    it('should check visible elements on page', () => {
+      return wd.amOnPage('/form/field')
+        .then(() => wd.seeElement('input[name=name]'))
+        .then(() => wd.seeElement('//input[@id="name"]'))
+        .then(() => wd.dontSeeElement('#something-beyond'))
+        .then(() => wd.dontSeeElement('//input[@id="something-beyond"]'));
+    });
   });
   
   describe('#click', () => {
@@ -382,7 +393,38 @@ describe('WebDriverIO', function() {
       return wd.amOnPage('/search')
         .then(() => wd.grabAttribute({css: 'form'}, 'method')) 
         .then((val) => assert.equal(val, "get"))     
+    });    
+  });
+  
+  describe('page title : #seeTitle, #dontSeeTitle, #grabTitle', () => {
+    it('should check page title', () => {
+      return wd.amOnPage('/')
+        .then(() => wd.seeInTitle('TestEd Beta 2.0'))
+        .then(() => wd.dontSeeInTitle('Welcome to test app'))
+        .then(() => wd.amOnPage('/info'))
+        .then(() => wd.dontSeeInTitle('TestEd Beta 2.0'));      
     });
     
+    it('should grab page title', () => {
+      return wd.amOnPage('/')
+        .then(() => wd.grabTitle())
+        .then((val) => assert.equal(val, "TestEd Beta 2.0"))      
+    });
+  });
+  
+  describe('#attachFile', () => {
+    it('should upload file located by CSS', () => {
+      return wd.amOnPage('/form/file')
+        .then(() => wd.attachFile('#avatar', 'app/avatar.jpg'))
+        .then(() => wd.click('Submit'))
+        .then(() => formContents()['files'].should.have.key('avatar'));
+    });
+    
+    it('should upload file located by label', () => {
+      return wd.amOnPage('/form/file')
+        .then(() => wd.attachFile('Avatar', 'app/avatar.jpg'))
+        .then(() => wd.click('Submit'))
+        .then(() => formContents()['files'].should.have.key('avatar'));
+    });    
   });
 });
