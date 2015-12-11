@@ -355,7 +355,34 @@ describe('WebDriverIO', function() {
     });
   });
   
-  describe('#grabTextFrom', () => {
+  describe('#grabTextFrom, #grabValueFrom, #grabAttribute', () => {
+    it('should grab text from page', () => {
+      return wd.amOnPage('/')
+        .then(() => wd.grabTextFrom('h1'))
+        .then((val) => assert.equal(val, "Welcome to test app!"))
+        .then(() => wd.grabTextFrom('//h1'))
+        .then((val) => assert.equal(val, "Welcome to test app!"));       
+    });
+    
+    it('should grab value from field', () => {
+      return wd.amOnPage('/form/hidden')
+        .then(() => wd.grabValueFrom('#action'))
+        .then((val) => assert.equal(val, "kill_people"))
+        .then(() => wd.grabValueFrom("//form/input[@name='action']"))
+        .then((val) => assert.equal(val, "kill_people"))        
+        .then(() => wd.amOnPage('/form/textarea'))
+        .then(() => wd.grabValueFrom('#description'))
+        .then((val) => assert.equal(val, "sunrise"))       
+        .then(() => wd.amOnPage('/form/select'))
+        .then(() => wd.grabValueFrom('#age'))
+        .then((val) => assert.equal(val, "oldfag"));      
+    });
+    
+    it('should grab attribute from element', () => {
+      return wd.amOnPage('/search')
+        .then(() => wd.grabAttribute({css: 'form'}, 'method')) 
+        .then((val) => assert.equal(val, "get"))     
+    });
     
   });
 });
