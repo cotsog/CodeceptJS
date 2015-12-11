@@ -336,5 +336,19 @@ describe('WebDriverIO', function() {
         .then(() => wd.dontSeeInField('select2', 'not seen three'))
         .then(() => wd.seeInField('select2', 'see test three'));      
     });
+    
+    it('should check checkbox is checked :)', () => {
+      return wd.amOnPage('/info')
+        .then(() => wd.seeCheckboxIsChecked('input[type=checkbox]'))        
+    });
+
+    it('should check checkbox is not checked', () => {
+      return wd.amOnPage('/form/checkbox') 
+        .then(() => wd.dontSeeCheckboxIsChecked('#checkin'));
+    });
+  });
+  
+  describe('#grabTextFrom', () => {
+    
   });
 });
