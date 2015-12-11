@@ -209,6 +209,13 @@ describe('WebDriverIO', function() {
         .then(() => wd.click('Submit'))
         .then(() => assert.equal(formContents('age'), 'adult'));      
     });    
+    
+    it('should select multiple options', () => {
+      return wd.amOnPage('/form/select_multiple')
+        .then(() => wd.selectOption('What do you like the most?', ['Play Video Games', 'Have Sex']))
+        .then(() => wd.click('Submit'))
+        .then(() => assert.deepEqual(formContents('like'), ['play','adult']));      
+    });        
   });
   
   describe('#fillField', () => {
